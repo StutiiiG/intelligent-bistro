@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Intelligent Bistro",
+    "slug": "intelligent-bistro",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#F5EFE6"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.intelligentbistro.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#F5EFE6"
+      },
+      "package": "com.intelligentbistro.app"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": []
+  }
+}

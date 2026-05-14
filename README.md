@@ -74,42 +74,9 @@ Press `i` for iOS simulator, `a` for Android emulator, or scan the QR code with 
 
 > **Note on physical devices:** `localhost` won't resolve from a phone on your LAN. Set `EXPO_PUBLIC_API_URL` in `mobile/.env` to your machine's LAN IP (e.g. `http://192.168.1.42:3001`).
 
-## Demo script
-
-A suggested 3-minute Loom outline:
-
-**0:00–0:30 — Visual tour.** Show the Menu tab, scroll through the image cards, hit the "Vegetarian" chip to filter, then the "Spicy" chip.
-
-**0:30–1:00 — Chef's Pick.** Tap the **✦ Chef's Pick** button. Show the alert with Alfred's description. Tap *View cart* — three balanced items are already there.
-
-**1:00–2:00 — Conversational ordering.** Go to the **Alfred** tab and try these in order:
-
-| You say | What happens |
-|---|---|
-| *"Two spicy chicken sandwiches and a large water"* | Adds 2× sandwich, 1× sparkling water (note: "large") |
-| *"What's something light?"* | Recommends the Caesar salad — no cart change |
-| *"Make it three pepperoni pizzas instead"* | Sets pepperoni pizza quantity to 3 |
-| *"Actually no jalapeños on the sandwich"* | Adds the note to the existing line |
-
-**2:00–2:30 — Smart Pairings.** Switch to the **Cart** tab. Show the "Alfred suggests" card — pairings appear automatically based on what's there. Tap "Add" on a suggestion.
-
-**2:30–3:00 — Persistence + checkout.** Mention that the cart survives app restarts (AsyncStorage). Hit *Place order*. Done.
-
-You can also tap items directly from the Menu tab — both paths drive the same Zustand store.
-
-## What's interesting here
-
-- **Structured-output via tool use, not JSON-mode hacks.** Claude returns a typed `actions[]` array validated against an `enum` of real menu IDs, so the model literally can't hallucinate items.
-- **Cart-context-aware replies.** Each chat request includes the current cart in the user turn, so the AI can do things like *"make it three instead"* — it knows what "it" is.
-- **One source of truth for menu IDs.** Backend and client share the same string IDs, so AI actions translate directly to Zustand mutations.
-- **Designed mobile-first.** Warm cream/ink/terracotta palette, serif display type, generous spacing, no skeuomorphic bistro clichés.
-
 ## Beyond the brief — features that set this apart
 
 These weren't required but make the experience feel like a finished product:
-
-### ✦ Chef's Pick (one-tap AI meal curation)
-Top-right button on the **Menu** tab. Calls a separate `/api/chef-pick` endpoint with a sommelier-style system prompt that forces the model to compose a balanced 3-course meal — one main, one side or starter, one drink or dessert — and drop it into the cart in a single turn. Showcases the same tool-use plumbing the chat uses, but with `tool_choice: { type: "tool", name: "update_cart" }` to force the structured output.
 
 ### 💡 Smart Pairings (proactive AI suggestions in the cart)
 The **Cart** tab includes an "Alfred suggests" card that hits `/api/pairings` whenever the cart composition changes (debounced 600 ms). The model is given a dedicated `suggest_pairings` tool with its own schema (`item_id` + short `reason`) and returns 2–3 complementary items the guest hasn't ordered yet. Tap "Add" on any suggestion to pull it into the order. This is genuinely useful — most demos show *reactive* AI; this one is *proactive*.

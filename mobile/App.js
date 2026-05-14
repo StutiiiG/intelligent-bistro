@@ -1,6 +1,6 @@
 import "./global.css";
 import { useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Platform } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 import MenuScreen from "./src/screens/MenuScreen.jsx";
@@ -43,8 +43,14 @@ export default function App() {
     });
   }
 
+  const webFrameProps =
+    Platform.OS === "web" ? { dataSet: { phoneFrame: "true" } } : {};
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#FAF5ED", position: "relative" }}>
+    <View
+      {...webFrameProps}
+      style={{ flex: 1, backgroundColor: "#FAF5ED", position: "relative" }}
+    >
       <StatusBar style="dark" />
 
       {/* Content area: absolutely positioned, leaves room for the tab bar */}

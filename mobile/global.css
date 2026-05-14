@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media screen {
+  html, body {
+    background: #1a1410;
+  }
+  #root {
+    align-items: center;
+    justify-content: center;
+  }
+  #root > div[data-phone-frame] {
+    width: 390px;
+    height: 844px;
+    flex: 0 0 auto !important;
+    border-radius: 44px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45), 0 0 0 12px #0a0806;
+  }
+}
